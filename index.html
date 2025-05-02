@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modulo Utenti</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f9f9f9;
+    }
+    label, input, select, button {
+      display: block;
+      margin: 10px 0;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #messaggio {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Inserisci i tuoi dati</h2>
+
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" placeholder="Inserisci il tuo nome">
+
+  <label for="sesso">Sesso:</label>
+  <select id="sesso">
+    <option value="">Seleziona M o F</option>
+    <option value="M">M</option>
+    <option value="F">F</option>
+  </select>
+
+  <label for="contatto">Contatto (email):</label>
+  <input type="email" id="contatto" placeholder="Inserisci email">
+
+  <button onclick="invia()">Invia</button>
+
+  <p id="messaggio"></p>
+
+  <script>
+    function invia() {
+      const nome = document.getElementById("nome").value.trim();
+      const sesso = document.getElementById("sesso").value;
+      const contatto = document.getElementById("contatto").value.trim();
+      const messaggio = document.getElementById("messaggio");
+
+      if (!nome || !sesso || !contatto) {
+        messaggio.textContent = "Compila tutti i campi!";
+        messaggio.style.color = "red";
+        return;
+      }
+
+      fetch("https://script.google.com/macros/s/AKfycbwYIwhJbDSZynK-kH_FZdk-OzAw_XwzAqaBccQeUjdW5yJ51uXQ254aWtX94d4JnJKw/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, sesso, contatto })
+      })
+      .then(res => res.text())
+      .then(txt => {
+        messaggio.textContent = txt;
+        messaggio.style.color = "green";
+        // Pulisce i campi
+        document.getElementById("nome").value = "";
+        document.getElementById("sesso").value = "";
+        document.getElementById("contatto").value = "";
+      })
+      .catch(err => {
+        console.error(err);
+        messaggio.textContent = "Errore nell'invio dei dati.";
+        messaggio.style.color = "red";
+      });
+    }
+  </script>
+
+</body>
+</html>
