@@ -61,26 +61,26 @@
         return;
       }
 
-      fetch("https://script.google.com/macros/s/AKfycbzZ__q8g5F5AUnppATTZwPFvs3OveIwfGCMzlbMz8E9gm9lb8zLjV2kL3Yzc6iTc9Iv/exec", {
-        method: "POST",
-	mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, sesso, contatto })
-      })
-      .then(res => res.text())
-      .then(txt => {
-        messaggio.textContent = txt;
-        messaggio.style.color = "green";
-        // Pulisce i campi
-        document.getElementById("nome").value = "";
-        document.getElementById("sesso").value = "";
-        document.getElementById("contatto").value = "";
-      })
-      .catch(err => {
-        console.error(err);
-        messaggio.textContent = "Errore nell'invio dei dati.";
-        messaggio.style.color = "red";
-      });
+     fetch('https://script.google.com/macros/s/TUO_WEB_APP_ID/exec', {
+  method: 'POST',
+	mode: 'cors',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    nome: nome,
+    sesso: sesso,
+    contatto: contatto
+  })
+})
+.then(res => res.text())
+.then(data => {
+  alert("Dati inviati con successo!");
+})
+.catch(err => {
+  alert("Errore nell'invio dei dati: " + err);
+});
+
     }
   </script>
 
